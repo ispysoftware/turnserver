@@ -20,10 +20,10 @@ namespace Turn.Server
 
         private ILogger logger;
 
-        public TurnServer(ILogger logger)
+        public TurnServer()
         {
             //this.syncRoot = new object();
-            this.logger = logger ?? new NullLogger();
+            this.logger = new NullLogger();
         }
 
         public int TurnUdpPort { get; set; }

@@ -17,14 +17,17 @@ namespace Turn.Server
 	{
 		public void WriteError(string message)
 		{
+			Console.WriteLine($"Error - {message}");
 		}
 
 		public void WriteWarning(string message)
-		{
-		}
+        {
+            Console.WriteLine($"Warning - {message}");
+        }
 
 		public void WriteInformation(string message)
-		{
-		}
+        {
+            Console.WriteLine($"Information - {message}");
+        }
 	}
 }

@@ -1,37 +1,37 @@
 ﻿using System;
+using System.Net;
 using System.ServiceProcess;
+using System.Text;
+using System.Threading;
+using Turn.Server;
 
 namespace Service
 {
-	static class Program
-	{
-		static void Main(string[] args)
-		{
-			bool console = false;
-			string extension = null;
+    static class Program
+    {
+        static void Main(string[] args)
+        {
 
-			if (args.Length >= 1)
-			{
-				if (args[0] == @"-debug" || args[0] == @"-console")
-				{
-					console = true;
-					if (args.Length >= 2)
-						extension = args[1];
-				}
-				else
-				{
-					extension = args[0];
-				}
-			}
+            var turnServer = new Turn.Server.TurnServer()
+            {
+                TurnUdpPort = 1567,
+                TurnTcpPort = 1568,
+                TurnPseudoTlsPort = 1569,
+                PublicIp = IPAddress.Parse("127.0.0.1"),
+                RealIp = IPAddress.Parse("127.0.0.1"),
+                MinPort = 2500,
+                MaxPort = 2600,
+                Authentificater = new Turn.Server.Authentificater()
+                {
+                    Realm = "tempRealm",
+                    Key1 = Encoding.ASCII.GetBytes("Key1"),
+                    Key2 = Encoding.ASCII.GetBytes("Key2"),
+                },
+            };
 
-			if (console)
-			{
-				new Service1(extension).Debug(args);
-			}
-			else
-			{
-				ServiceBase.Run(new Service1(extension));
-			}
-		}
-	}
+            turnServer.Start();
+
+            Thread.Sleep(Timeout.Infinite);
+        }
+    }
 }
